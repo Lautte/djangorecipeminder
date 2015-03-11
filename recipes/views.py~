@@ -1,0 +1,19 @@
+from django.shortcuts import render, HttpResponse
+from recipes.models import Recipe
+
+# Create your views here.
+def recipe_list(request):
+	recipelist = Recipe.objects.all()
+	context = {'recipelist' : recipelist}
+	return render(request, 'recipelist.html', context)	
+	#names = '<li>'.join([r.name for r in recipelist])
+	#output = '<ul><li>{0}</ul>'.format(names)	
+	#return HttpResponse(output)
+def recipe(request, recipe_id):
+	try:
+		recipe = Recipe.objects.get(id = recipe_id)
+	except Recipe.DoesNotExist:
+		raise Http404
+	context = {'recipe' : recipe}
+	return render(request, 'recipe.html', context)
+
